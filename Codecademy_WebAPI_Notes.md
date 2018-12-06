@@ -299,9 +299,132 @@ Since your HTTP request can be read by anyone at certain network junctures, it m
 
 HTTPS is important to use when passing sensitive or personal information to and from websites. However, it is up to the businesses maintaining the servers to set it up. In order to support HTTPS, the business must apply for a certificate from a Certificate Authority.
 
-
+ 
 
 # Rest (REST)
 ** REpresentational State Transfer **
 REST, or REpresentational State Transfer, is an architectural style for providing standards between computer systems on the web, making it easier for systems to communicate with each other. REST-compliant systems, often called RESTful systems, are characterized by how they are stateless and separate the concerns of client and server. We will go into what these terms mean and why they are beneficial characteristics for services on the Web.
+
+# RPS Game x99
+** Solution Notes **
+
+In the project folder, notice the "package.json" file. 
+This file is used for telling NPM what to load when "install" commanded
+
+```javascript
+
+const randomInteger = n => Math.floor(Math.random() *n);
+// here is a great function expression to use for generating whole number randoms
+
+console.log(`
+ // allows for putting mulit lines for log return
+`);
+
+```
+
+# Arrays
+** for the data structures **
+
+```javascript
+
+// here is an array and we are setting listItem to be the first element.
+const famousSayings = ['Fortune favors the brave.', 'A joke is a very serious thing.', 'Where there is love there is life.'];
+
+let listItem = famousSayings[0];
+console.log(listItem);
+
+```
+note: Variables declared with the const keyword cannot be reassigned. However, elements in an array declared with const remain mutable. 
+```javascript
+
+// here is an array and we use .length to find how many elements.
+const objectives = ['Learn a new languages', 'Read 52 books', 'Run a marathon'];
+
+console.log(objectives.length);
+
+```
+.push() method adds to an array!
+
+```javascript
+
+const chores = ['wash dishes', 'do laundry', 'take out trash'];
+
+chores.push('do one situp','do one yawn');
+console.log(chores);
+
+```
+You might also see .push() referred to as a destructive array method since it changes the initial array.
+
+.pop() array method removes the last item of an array. It does not take any arguments, only removes last element.
+```javascript
+const chores = ['wash dishes', 'do laundry', 'take out trash', 'cook dinner', 'mop floor'];
+
+chores.pop();
+console.log(chores);
+
+```
+Some arrays methods that are available to JavaScript developers include: .join(), .slice(), .splice(), .shift(), .unshift(), and .concat() amongst many others.
+```javascript
+
+// here .slice will take only array items between and including 1 to 4.
+console.log(groceryList.slice(1, 4));
+
+``` 
+### Nested Arrays
+```javascript
+
+const nestedArr = [[1], [2, 3]];
+
+console.log(nestedArr[1]); // Output: [2, 3]
+console.log(nestedArr[1][0]); // Output: 2
+// here the output is 2 because we start with the index 1 and find within it index 0
+
+```
+### Arrays Review
+Arrays are lists that store data in JavaScript.
+Arrays are created with brackets [].
+Each item inside of an array is at a numbered position, or index, starting at 0.
+We can access one item in an array using its index, with syntax like: myArray[0].
+We can also change an item in an array using its index, with syntax like myArray[0] = 'new string';
+Arrays have a length property, which allows you to see how many items are in an array.
+Arrays have their own methods, including .push() and .pop(), which add and remove items from an array, respectively.
+Arrays have many methods that perform different tasks, such as .slice() and .shift(), you can find documentation at the Mozilla Developer Network website.
+Some built-in methods are mutating, meaning the method will change the array, while others are not mutating. You can always check the documentation.
+Variables that contain arrays can be declared with let or const. Even when declared with const, arrays are still mutable. However, a variable declared with const cannot be reassigned.
+Arrays mutated inside of a function will keep that change even outside the function.
+Arrays can be nested inside other arrays.
+To access elements in nested arrays chain indices using bracket notation.
+
+# Project Secret Message
+
+```javascript
+let secretMessage = ['Learning', 'is', 'not', 'about', 'what', 'you', 'get', 'easily', 'the', 'first', 'time,', 'it', 'is', 'about', 'what', 'you', 'can', 'figure', 'out.', '-2015,', 'Chris', 'Pine,', 'Learn', 'JavaScript'];
+
+// remove the last element
+secretMessage.pop();
+console.log();
+
+// add these two strings elements to end
+secretMessage.push('to','Program');
+
+// replace the 'easily' with 'right'
+let target = secretMessage.indexOf('easily');
+
+secretMessage[target] = 'right';
+
+// remove the first element
+secretMessage.shift();
+
+// add 'Programming' to the beginning
+secretMessage.unshift('Programming');
+
+// replace the words between 'get' and 'time' with 'know'
+delete secretMessage.slice(6, 10);
+
+secretMessage[6] = 'know';
+
+// in one line print the whole message as normal sentence
+console.log(secretMessage.join(' '));
+```
+
 
