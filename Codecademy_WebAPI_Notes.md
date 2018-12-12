@@ -33,6 +33,7 @@
     newVariable = 1;
     console.log(typeof newVariable);
 
+
 ```
 # Conditional Statements
 ** If Else, Truthy/ Falsy, Ternary, **
@@ -123,6 +124,9 @@
         console.log('No medal awarded.');
         break;
     }
+
+    // extra note: { code } = a 'block of code' which is handled all together by the compiler
+    // ; used at the end of a line is like a coding period
 
 ```
 # Functions
@@ -426,5 +430,262 @@ secretMessage[6] = 'know';
 // in one line print the whole message as normal sentence
 console.log(secretMessage.join(' '));
 ```
+# Loops
+** learning also how to code without repetition **
 
+## For Loop
+```javascript
+
+// here the counter is generated at 0 and then prints 0 to 3
+for (let counter = 0; counter < 4; counter++) {
+  console.log(counter);
+};
+
+// here we can go backwards in the iteration
+for (let counter = 3; counter >= 0; counter--){
+  console.log(counter)
+};
+
+// Here is a nested for loop
+let bobsFollowers = ['Joe','Karen','Suzie','Elizabeth'];
+let tinasFollowers = ['Joe','Ron','Suzie'];
+
+let mutualFollowers = [];
+
+for (let bobs = 0; bobs < bobsFollowers.length ; bobs++) {
+  for (let tinas = 0; tinas <tinasFollowers.length; tinas++) {
+    if (bobsFollowers[bobs] === tinasFollowers[tinas]) {
+     mutualFollowers.push(bobsFollowers[bobs]);
+    }
+  }
+}
+console.log(mutualFollowers); // returns ['Joe','Suzie']
+
+```
+## While Loop
+
+The while loop is very useful when we do not know how many times we will be running the loop.
+```javascript
+
+// This will draw a random card
+const cards = ['diamond', 'spade', 'heart', 'club'];
+
+let currentCard;
+while (currentCard != 'spade') {
+  currentCard =
+    cards[Math.floor(Math.random()*4)];
+    console.log(currentCard);
+}
+
+// Do ... While loop
+let cupsOfSugarNeeded = 7;
+let cupsAdded = 0;
+
+do {
+  cupsAdded++
+} while (cupsOfSugarNeeded>cupsAdded);
+console.log(cupsAdded);
+
+// Here is an example of breaking a loop with an if statement
+const rapperArray = ["Lil' Kim", "Jay-Z", "Notorious B.I.G.", "Tupac"];
+
+// Write you code below
+for (let rapperArrayIndex = 0 ; rapperArrayIndex < rapperArray.length; rapperArrayIndex++){
+ 
+console.log(rapperArray[rapperArrayIndex], rapperArrayIndex);
+   if (rapperArray[rapperArrayIndex]==='Notorious B.I.G.'){
+    break;
+  }
+}
+
+```
+## Whale Talk Project
+** Using nested arrays and for loops to translate vowels into 'whale talk' **
+
+```javascript
+const input = 'Limitless Possibilities';
+
+// vowels array
+let vowels = ['a','e','i','o','u'];
+
+// empty array to load
+const resultArray = [];
+
+// function to run both string and array to cross check for vowels and input them into resultArray
+let checkInput = () => {
+  for (let i=0; i< input.length; i++) {
+    //resultArray.push(input[i])
+
+		for (let v=0; v< vowels.length; v++) {
+
+        if (input[i]===vowels[v]) {
+          resultArray.push(input[i]);
+        }
+      if (input[i]==='e' || input[i]==='u') {
+        resultArray.push(input[i]);
+      }
+      
+    }
+  }
+}
+checkInput(); // run that function
+
+// log the resultArray as a string without spaces and then set to upper cases
+console.log(resultArray.join('').toUpperCase());
+
+
+```
+# Higher Order Functions
+
+countToThree() would be easy to understand we are most likely logging 1,2,3
+More modular and abstracted code makes it easier to read and debug in a larger program
+
+In JavaScript, functions are first class objects, this means that like other objects you've encountered, JavaScript functions can have properties and methods.
+
+```javascript
+const is2p2 = checkThatTwoPlusTwoEqualsFourAMillionTimes;
+
+is2p2();
+
+console.log(is2p2.name)
+// here we reasigned a managable name and then can find the original name of the function with .name
+
+// Below is the higher order function which takes in funcParameter
+const timeFuncRuntime = funcParameter => {
+   let t1 = Date.now();
+   funcParameter();
+   let t2 = Date.now();
+   return t2 - t1;
+}
+
+const addOneToOne = () => 1 + 1;
+
+timeFuncRuntime(addOneToOne);
+```
+## Passing Functions
+
+```javascript
+
+// Below we checked consistent output and passed a value with number
+const checkThatTwoPlusTwoEqualsFourAMillionTimes = () => {
+  for(let i = 1; i <= 1000000; i++) {
+    if ( (2 + 2) != 4) {
+      console.log('Something has gone very wrong :( ');
+    }
+  }
+};
+
+const addTwo = num => num + 2;
+
+const timeFuncRuntime = funcParameter => {
+  let t1 = Date.now();
+  funcParameter();
+  let t2 = Date.now();
+  return t2 - t1;
+};
+    // Write your code below
+let time2p2 = timeFuncRuntime(checkThatTwoPlusTwoEqualsFourAMillionTimes);
+
+const checkConsistentOutput = (func, val) => {
+  let firstTry = func(val);
+  let secondTry = func(val);
+  if (firstTry === secondTry) {
+    return firstTry;
+  } else {
+    return ('This function returned inconsistent results');
+  }
+}
+checkConsistentOutput(addTwo, 3);
+console.log(checkConsistentOutput(addTwo, 3));
+```
+
+## Iterators
+** Notice these uses for parsing arrays **
+```javascript
+
+const artists = ['Picasso', 'Kahlo', 'Matisse', 'Utamaro'];
+
+// outputs each item
+artists.forEach(artist => {
+  console.log(artist + ' is one of my favorite artists.');
+});
+
+
+const numbers = [1, 2, 3, 4, 5];
+
+// going to each item, taking that number and squaring
+const squareNumbers = numbers.map(number => {
+  return number * number;
+});
+
+console.log(squareNumbers);
+
+const things = ['desk', 'chair', 5, 'backpack', 3.14, 100];
+
+// taking each item and filtering only numbers out
+const onlyNumbers = things.filter(thing => {
+  return typeof thing === 'number';
+});
+
+console.log(onlyNumbers);
+
+```
+## .forEach() 
+
+```javascript
+const fruits = ['mango', 'papaya', 'pineapple', 'apple'];
+
+// Iterate over fruits below
+fruits.forEach(fruitItem => {
+  console.log('I want to eat a ${fruitItem}.')
+})
+
+// this does the same thing by function declaration
+function printFruits(element){
+  console.log(element);
+}
+fruits.forEach(printFruits);
+// You could also do the above as function expression
+
+```
+## .map() 
+** this is different than .forEach as it returns a new array! **
+
+```javascript
+
+// because this creates a new array, be sure you are using a unique variable toNew
+const animals = ['Hen', 'elephant', 'llama', 'leopard', 'ostrich', 'Whale', 'octopus', 'rabbit', 'lion', 'dog'];
+
+const secretMessage = animals.map(toNew => {return toNew.charAt(0);})
+
+```
+## .filter() 
+** this method creates a new array like .map() but also filters through certain items only and returns true or false **
+```javascript
+// We are checking for lengths in an array greater than 7
+const favoriteWords = ['nostalgia', 'hyperbole', 'fervent', 'esoteric', 'serene'];
+
+    // Call .filter() on favoriteWords below
+const longFavoriteWords = favoriteWords.filter(check => {
+  return (check.length > 7);
+})
+
+```
+## .findIndex() 
+** This will return the numerical value (the index) of the first found item searched in an array **
+```javascript
+// Here we do two searches, one for the word 'elephant' and the other for the first element starting with the letter 's'
+const animals = ['hippo', 'tiger', 'lion', 'seal', 'cheetah', 'monkey', 'salamander', 'elephant'];
+
+const foundAnimal = animals.findIndex(search => {
+  return (search==='elephant');
+})
+
+const startsWithS = animals.findIndex(search => {
+  if (search.charAt(0)==='s') {
+  return search
+  }
+})
+
+```
 
