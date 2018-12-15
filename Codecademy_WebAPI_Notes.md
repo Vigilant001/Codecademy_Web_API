@@ -1,5 +1,11 @@
+# SECTION 1
+
 # Javascript Basics
 ** Strings, Console log, Math Operators, Increments, Literals, Typeof **
+
+Notes on Javascript: There are seven basic types of Javascript:
+string, number, boolean, null, undefined, symbol and object. We learn about objects in section 3.
+
 ```javascript 
 
     console.log('Teaching the world how to code'.length);
@@ -921,12 +927,92 @@ const getNeighborPads = (x, y, size) => {
 
 ```
 
+# SECTION 3
+
 # Objects
 ** now allow you to store sets of data at named indices instead of numbered indices. **
-```javascript
 
+We store objects in what are called 'key' to 'value' pairs. (kind of like a dictionary in Python)
+A key's value can be of any data type in the language including functions or other objects.
+
+```javascript
+// basic object structure
+let fasterShip = {
+  'Fuel Type': 'Turbo Fuel',
+  color: 'silver'
+};
+
+```
+** To call up your values in the object **
+
+```javascript
+let spaceship = {
+  homePlanet: 'Earth',
+  color: 'silver',
+  'Fuel Type': 'Turbo Fuel',
+  numCrew: 5,
+  flightPath: ['Venus', 'Mars', 'Saturn']
+};
+
+// Write your code below
+let crewCount = spaceship.numCrew;
+let planetArray = spaceship.flightPath;
+```
+** We MUST use bracket notation when accessing keys that have numbers, spaces, or special characters in them. **
+
+```javascript
+let spaceship = {
+  'Fuel Type' : 'Turbo Fuel',
+  'Active Mission' : true,
+  homePlanet : 'Earth', 
+  numCrew: 5
+ };
+
+let propName =  'Active Mission';
+
+// Write your code below
+let isActive = spaceship['Active Mission'];
+
+// now we use propName variable above to more easily access the key 'Active Mission'
+console.log(spaceship[propName]);
+```
+
+** Now, the values in the properties of an object can be changed, or 'mutable' **
+
+```javascript
+let spaceship = {
+  'Fuel Type' : 'Turbo Fuel',
+  homePlanet : 'Earth',
+  color: 'silver',
+  'Secret Mission' : 'Discover life outside of Earth.'
+};
+
+// reassigned value (again use the . notation for property like this)
+spaceship.color = 'glorious gold';
+// created new key and value
+spaceship.numEngines = 4;
+// delete property by key (the key here is a string and needs the [] notation)
+delete spaceship['Secret Mission'];
 
 ```
 
-# Modules
-** 
+## Methods
+** When a function is inside an object, the operation it does is called a method **
+
+```javascript
+let retreatMessage = 'We no longer wish to conquer your planet. It is full of dogs, which we do not care for.';
+
+// Both ways of creating a method are legitimate, but with ES6 the second is easier. Dont forget the comma!
+const alienShip = {
+  retreat: function() {
+    console.log (retreatMessage);
+  },
+  takeOff () {
+    console.log ('Spim... Borp... Glix... Blastoff!')
+  }
+};
+
+alienShip.retreat();
+alienShip.takeOff();
+
+```
