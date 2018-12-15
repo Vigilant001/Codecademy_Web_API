@@ -660,7 +660,7 @@ const secretMessage = animals.map(toNew => {return toNew.charAt(0);})
 
 ```
 ## .filter() 
-** this method creates a new array like .map() but also filters through certain items only and returns true or false **
+** this method creates a new array like .map() and will check the statement in code block for 'true' to push it to the array **
 ```javascript
 // We are checking for lengths in an array greater than 7
 const favoriteWords = ['nostalgia', 'hyperbole', 'fervent', 'esoteric', 'serene'];
@@ -730,3 +730,203 @@ forEach() is used to execute the same code on every element in an array but does
 All iterator methods takes a callback function that can be pre-defined, or a function expression, or an arrow function.
 
 You can visit the Mozilla Developer Network to learn more about iterator methods (and all other parts of JavaScript!).
+
+## Turn string into array
+```javascript
+
+const storyWords = story.split(' ');
+
+```
+** Instead of this long array cross check function, we can use the .filter() method **
+
+```javascript
+
+// Instead of using this
+const storyWords = story.split(' ');
+const betterWords = []
+
+let better = () => {
+  for (let i=0; i<storyWords.length; i++) {
+    let hasWord = false
+    for (let n=0; n<unnecessaryWords.length; n++) {
+      if (storyWords[i]===unnecessaryWords[n])
+        {
+          hasWord = true;
+          break;
+        }
+      }
+    if (!hasWord) {
+      betterWords.push(storyWords[i])
+    }
+    }
+  }
+
+// we use this. .filter outputs to the new array based on true or false
+const storyWords = story.split(' ');
+
+const betterWords = storyWords.filter(neW => {
+ 
+	for (let i=0; i<unnecessaryWords.length; i++) {
+        return (neW!==unnecessaryWords[i]);
+    }
+})
+
+```
+overusedWords.forEach(word => {
+  words[word] = storyWords.filter(aWord => aWord === word);
+})
+```javascript
+
+const storyWords = story.split(' ');
+
+const betterWords = storyWords.filter(neW => {
+ 
+	for (let i=0; i<unnecessaryWords.length; i++) {
+    if (neW===unnecessaryWords[i]) {
+      return false
+    }
+  }
+  return true
+})
+
+const wordsOverused = storyWords.filter(check => {
+  for (let n=0; n<overusedWords.length; n++) {
+    if (check===overusedWords[n]) {
+      return (overusedWords[n])
+    }
+  }
+})
+
+// iterate wordsOverused and find not only how many words are used in the story, but also make a new object and show how many times each word is used. 
+
+console.log(betterWords.length);
+console.log(wordsOverused);
+
+const words = {};
+overusedWords.forEach(word => (
+words[word] = storyWords.filter(aWord => aWord === word).length))
+
+console.log(words)
+
+// Find out how many sentances are in the story
+let sentances = 0
+
+	// here we started with taking the direct string of story and iterating through each character to find periods or exclamation points.Then we add one to the length of sentances array, to then return the length.
+
+const sentanceCount = () => {
+  for (let s=0; s<story.length; s++) {
+    if (story[s]==='.' || story[s]==='!')
+      sentances++;
+  }
+  return sentances;
+}
+
+console.log(sentanceCount());
+
+// or instead of that Med wrote this one line! Notice he used the .split without a space!
+
+console.log(story.split('').filter(x => '.!'.indexOf(x) > -1).length)
+
+// One way of printing for the user to see formatted answers. What about this object though? 
+const specialLog = (theWords, theSentances, theOverused) => {
+  console.log('You have '+theWords+
+             ' words in this story')
+  console.log('You have '+theSentances+
+             ' sentances in this story')
+  overusedWords.forEach(word => console.log(word + ' is used ' + theOverused[word] + ' times'));
+  // here we take the array of words as a key to access each item in the object word, logging the word and its number value stored in the oject array words
+  
+}
+specialLog(storyWords.length, sentanceCount(), words);
+
+```
+
+# Beat Mix Project
+** Second project in the course, creating logic for a beat mix pad interface **
+
+```javascript
+// create an empty array of 16 with false values?
+const createEmptyDrumArray = () => new Array(16).fill(false);
+
+// Drum Arrays
+let kicks = createEmptyDrumArray();
+let snares = createEmptyDrumArray();
+let hiHats = createEmptyDrumArray();
+let rideCymbals = createEmptyDrumArray();
+
+const getDrumArrayByName = (name) => {
+    switch (name) {
+        case 'kicks':
+          return kicks;
+        case 'snares':
+          return snares;
+        case 'hiHats':
+          return hiHats;
+        case 'rideCymbals':
+          return rideCymbals;
+        default:
+          return;
+      }
+    };
+
+// takes two arguments: a string representing the array name ('kicks', 'snares', 'hiHats', or 'rideCymbals'), and an index number. This function should flip the boolean value in the correct array at the specified index.
+const toggleDrum = (arrayName, indexNum) => { 
+    const drums = getDrumArrayByName(arrayName);
+    if (!drums || index > 15 || index < 0) {
+        return;
+    }
+    drums[index] = !drums[index];
+};
+
+// takes an array name string and sets all values in the correct array to false.
+const clear = (arrayName) => {
+    const drums = getDrumArrayByName(arrayName);
+    if (drums) {
+        drums.fill(false);
+    }
+};
+
+// takes an array name string and flips the boolean value of all elements in the correct array.
+const invert = (arrayName) => {
+    const drums = getDrumArrayByName(arrayName);
+    if (!drums) {
+        return;
+    }
+    for (let i =0; i <drums.length; i++) {
+        drums[i] = !drums[i];
+    }
+};
+
+    // this should return an array. if invalid index then return 404. if index is valid the first element of return array should be 200.
+    // if requestType is not one of the 'GET' or 'PUT', it should return array with 400 (bad request).
+    // If the index was valid, presetHandler should also return a second element in the array. for 'GET' requests, that element should be the preset array at that array index. For 'PUT' requests, it should save the newPresetArray to that index and then also return it as the second element.
+    // If you are testing presets with the app itself, you will need to stop and re-start your server to see the changes you write in presetHandler.js take effect.
+
+const getNeighborPads = (x, y, size) => {
+    const neighborPads = [];
+    if (x >= size || y >= size || x < 0 || y < 0 || size < 1) {
+        return neighborPads;
+    }
+    neighborPads.push([x -1, y]);
+    neighborPads.push([x, y - 1]);
+    neighborPads.push([x + 1, y]);
+    neighborPads.push([x, y +1]);
+    return neighborPads.filter((neighbor) => {
+        return neighbor.every((val) => {
+            return val >= 0 && val < size;
+        });
+    });
+};
+
+
+```
+
+# Objects
+** now allow you to store sets of data at named indices instead of numbered indices. **
+```javascript
+
+
+```
+
+# Modules
+** 
