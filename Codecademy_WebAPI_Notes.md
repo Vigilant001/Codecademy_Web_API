@@ -1016,3 +1016,117 @@ alienShip.retreat();
 alienShip.takeOff();
 
 ```
+** Accessing nested arrays is the same process, and many variations can be included **
+```javascript
+let spaceship = {
+  passengers: null,
+  telescope: {
+    yearBuilt: 2018,
+    model: "91031-XLT",
+    focalLength: 2032 
+  },
+  crew: {
+    captain: { 
+      name: 'Sandra', 
+      degree: 'Computer Engineering', 
+      encourageTeam() { console.log('We got this!') },
+     'favorite foods': ['cookies', 'cakes', 'candy', 'spinach'] }
+  },
+  engine: {
+    model: "Nimbus2000"
+  },
+  nanoelectronics: {
+    computer: {
+      terabytes: 100,
+      monitors: "HD"
+    },
+    backup: {
+      battery: "Lithium",
+      terabytes: 50
+    }
+  }
+}; 
+// new variable to find the first item in the captain's favorite foods list
+const capFave = spaceship.crew.captain['favorite foods'][0];
+// instead of null, we make an array of objects... fancy
+spaceship.passengers = [{key: 'value'},{},{}];
+// new variable to access the first passenger object
+const firstPassenger = spaceship.passengers[0];
+
+```
+** pass by reference **
+
+```javascript
+let spaceship = {
+  'Fuel Type' : 'Turbo Fuel',
+  homePlanet : 'Earth'
+};
+
+// function to change fuel type for any object to 'avocado oil'
+let greenEnergy = obj => {
+  obj['Fuel Type'] = 'avocado oil';
+};
+// set any object's disabled parameter to true
+let remotelyDisable = switchParam => {
+  switchParam.disabled = true;
+};
+// use these two functions on spaceship object
+greenEnergy(spaceship);
+remotelyDisable(spaceship);
+console.log(spaceship);
+
+```
+## Looping through objects
+** use the for...in syntax to loop through an object **
+
+Here we can access and create a log list of the crew members on the space ship
+
+```javascript
+let spaceship = {
+    crew: {
+      // this is the set of objects (crew members) inside the crew main object
+    captain: { 
+        name: 'Lily', 
+        degree: 'Computer Engineering', 
+        cheerTeam() { console.log('You got this!') } 
+        },
+    'chief officer': { 
+        name: 'Dan', 
+        degree: 'Aerospace Engineering', 
+        agree() { console.log('I agree, captain!') } 
+        },
+    medic: { 
+        name: 'Clementine', 
+        degree: 'Physics', 
+        announce() { console.log(`Jets on!`) } },
+    translator: {
+        name: 'Shauna', 
+        degree: 'Conservation Science', 
+        powerFuel() { console.log('The tank is full!') } 
+        }
+    }
+}; 
+
+// Write your code below
+
+for (let crewMember in spaceship.crew) {
+  console.log(`${crewMember}: ${spaceship.crew[crewMember].name}`)
+};
+
+// log the name and degree of each crew member as a list with format 'crew member name: crew member degree'
+for (let crewMember in spaceship.crew) {
+  console.log(`${spaceship.crew[crewMember].name}: ${spaceship.crew[crewMember].degree}`)
+};
+
+```
+** review on Objects **
+Objects store collections of key-value pairs.
+Each key-value pair is a property—when a property is a function it is known as a method.
+An object literal is composed of comma-separated key-value pairs surrounded by curly braces.
+You can access, add or edit a property within an object by using dot notation or bracket notation.
+We can add methods to our object literals using key-value syntax with anonymous function expressions as values or by using the new ES6 method syntax.
+We can navigate complex, nested objects by chaining operators.
+Objects are mutable—we can change their properties even when they're declared with const.
+Objects are passed by reference— when we make changes to an object passed into a function, those changes are permanent.
+We can iterate through objects using the For...in syntax.
+
