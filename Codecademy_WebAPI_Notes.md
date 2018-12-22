@@ -1130,3 +1130,230 @@ Objects are mutable—we can change their properties even when they're declared 
 Objects are passed by reference— when we make changes to an object passed into a function, those changes are permanent.
 We can iterate through objects using the For...in syntax.
 
+# Advanced Objects 
+## The .this method 
+```javascript
+// use the .this method when setting up the method to be able to return from outside of the object.
+const robot = {
+  model: '1E78V2',
+  energyLevel: 100,
+  provideInfo() {
+    return `I am ${this.model} and my current energy level is ${this.energyLevel}.`
+  }
+};
+console.log(robot.provideInfo());
+
+```
+Avoid using pointer functions as methods! 
+
+## Privacy using objects 
+** A common syntax to notify developers to not change a property is use the _ before the name.
+```javascript
+const importantStuff = {
+    _heyDontChange: 'this needs to be this ok?!',
+    change: 'this one is ok to change',
+};
+
+```
+## Getters 
+Getters are methods that get and return the internal properties of an object. But they can do more than just retrieve the value of a property! 
+```javascript
+const robot = {
+  _model: '1E78V2',
+  _energyLevel: 100,
+  get energyLevel() {
+    if (typeof this._energyLevel==='number') {
+      return `My current energy level is ${this._energyLevel}`
+    } else {
+      return 'System malfunction: cannot retrieve energy level'
+    }
+  }
+};
+console.log(robot.energyLevel);
+```
+With a get method, you do not use parentheses to call it.
+
+## Setters
+** Setter methods reassign values of existing properties within an object. **
+Most likely, these methods will have inputs setup to plug into for the values changes.
+Setters also when called do not need parentheses you can just use these methods like below. 
+```javascript
+const robot = {
+  _model: '1E78V2',
+  _energyLevel: 100,
+  _numOfSensors: 15,
+  // get method to handle checking current status
+  get numOfSensors(){
+    if(typeof this._numOfSensors === 'number'){
+      return this._numOfSensors;
+    } else {
+      return 'Sensors are currently down.'
+    }
+  },
+  // set method for changing the number of sensors and is a number greater or equal to 0
+  set numOfSensors(num){
+    if (typeof num === 'number' && num>=0) {
+      return (this._numOfSensors = num);
+    } else {
+      return 'Pass in a number that is greater than or equal to 0'
+    }
+  },
+};
+robot.numOfSensors = 100;
+console.log(robot.numOfSensors);
+```
+
+## Factory Functions
+** Where we want to create many instances of an object quickly. **
+
+```javascript
+const robotFactory = (model, mobile) => {
+  return {
+    model: model,
+    mobile: mobile,
+    beep() {
+      console.log('Beep Boop');
+    }
+  }
+};
+// now we use the robotFactory to make a new object
+const tinCan = robotFactory('P-500',true);
+tinCan.beep();
+
+```
+** Factory functions now with ES6 can be written faster with a shorthand technique **
+They can also have their methods deconstructed by use of this shorthand below. 
+```javascript 
+// here the shorthand for creating a factory function (again, it is a template for creating objects)
+const vampire = (residence, age) => {
+    return {
+      residence,
+      age,
+  }
+}
+// here we have called out the residence property into the global scope in a short format. residence is still the variable name. This will also pull out directly any nested properties. 
+const { residence } = vampire; 
+console.log(residence); // Prints 'Transylvania'
+
+```
+## Built in Object Methods
+** use these methods to call up features on objects **
+```javascript
+// find the keys and output them in array
+const robotKeys = Object.keys(robot);
+console.log(robotKeys);
+// the entries method will return a nested array with both keys and values in each
+const robotEntries = Object.entries(robot);
+console.log(robotEntries);
+// Here we can use assign to create a new object with these added properties
+const newRobot = Object.assign({laserBlaster: true, voiceRecognition: true}, robot);
+console.log(newRobot);
+```
+
+** Advanced Objects Review **
+The object that a method belongs to is called the calling object.
+The this keyword refers the calling object and can be used to access properties of the calling object.
+Methods do not automatically have access to other internal properties of the calling object.
+The value of this depends on where the this is being accessed from.
+We cannot use arrow functions as methods if we want to access other internal properties.
+JavaScript objects do not have built-in privacy, rather there are conventions to follow to notify other developers about the intent of the code.
+The usage of an underscore before a property name means that the original developer did not intend for that property to be directly changed.
+Setters and getter methods allow for more detailed ways of accessing and assigning properties.
+Factory functions allow us to create object instances quickly and repeatedly.
+There are different ways to use object destructuring: one way is the property value shorthand and another is destructured assignment.
+As with any concept, it is a good skill to learn how to use the documentation with objects!
+
+# Modules
+** reusable pieces of code that can be exported from one program and imported for use in another program **
+```javascript
+// the basic structure of a Module
+let Airplane = {};
+Airplane.myAirplane = "StarJet";
+module.exports = Airplane;
+// import modules when needed with require()
+const Airplane = require('./1-airplane.js');
+
+function displayAirplane() {
+  console.log(Airplane.myAirplane);
+}
+displayAirplane();
+// just remember the exact name of the file and the path ^^
+
+// exports will export out the current module.
+let Airplane = {};
+module.exports = {
+  myAirplane: "CloudJet",
+  displayAirplane: function(){
+    return this.myAirplane;
+  }
+};
+// then in the next file we require Airplane
+const Airplane = require('./2-airplane.js');
+console.log(Airplane.displayAirplane());
+// the method in Airplane has parentheses
+```
+# Exports ES6
+** default export and named export **
+```javascript
+// here we create an array of objects so we have keys and values for Airplane
+let Airplane = {}
+Airplane.availableAirplanes = [
+  {name: 'AeroJet',
+  fuelCapacity: 800},
+  {name: 'SkyJet',
+  fuelCapacity: 500},
+];
+export default Airplane;
+// Now in another file we import using a ES6 shorthand and log the fuel capacity
+import Airplane from './airplane';
+
+function displayFuelCapacity(){
+	Airplane.availableAirplanes.forEach(function(element){
+  console.log('Fuel Capacity of '+ element.name + ': '+ element.fuelCapacity);
+  });
+}
+displayFuelCapacity();
+
+```
+## Named Exports 
+** a little different than before but easier to manage **
+
+```javascript 
+let availableAirplanes = [
+  {name: 'AeroJet',
+  fuelCapacity: 800,
+  availableStaff: ['pilots','flightAttendants','engineers','medialAssistance','sensorOperators']},
+  {name: 'SkyJet',
+  fuelCapacity: 500,
+  availableStaff: ['pilots','flightAttendants']},
+];
+
+let flightRequirements = {
+  requiredStaff: 4,
+};
+function meetsStaffRequirements(availableStaff, requiredStaff) {
+  if (availableStaff.length >= requiredStaff) {
+    return true;
+  } else {return false};
+}
+export { availableAirplanes, flightRequirements, meetsStaffRequirements };
+
+// Here we are using the newer import option that allows flexibility with imports and less errors
+import {availableAirplanes, flightRequirements, meetsStaffRequirements} from './airplane';
+
+function displayFuelCapacity(){
+	availableAirplanes.forEach(function(element){
+  console.log('Fuel Capacity of '+ element.name + ': '+ element.fuelCapacity);
+  });
+}
+displayFuelCapacity();
+
+// we create a new function in this same file that can check requirements
+function displayStaffStatus() {
+  availableAirplanes.forEach(function(element){
+    console.log(element.name + 'meets staff requirements: ' + meetsStaffRequirements(element.availableStaff, flightRequirements.requiredStaff)
+);
+  });
+}
+displayStaffStatus();
+```
